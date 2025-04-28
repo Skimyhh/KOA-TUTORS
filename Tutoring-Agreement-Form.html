@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutor Verification Form</title>
+<link href="dist/output.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9fafb;
+}
+.form-input {
+width: 100%;
+padding: 0.75rem 1rem;
+border: 1px solid #e5e7eb;
+border-radius: 8px;
+outline: none;
+transition: all 0.3s;
+}
+.form-input:focus {
+border-color: #4f46e5;
+box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+.form-label {
+display: block;
+margin-bottom: 0.5rem;
+font-weight: 500;
+color: #374151;
+}
+.required::after {
+content: "*";
+color: #ef4444;
+margin-left: 0.25rem;
+}
+.file-input-container {
+position: relative;
+overflow: hidden;
+}
+.file-input-container input[type="file"] {
+position: absolute;
+font-size: 100px;
+opacity: 0;
+right: 0;
+top: 0;
+cursor: pointer;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+input[type="number"] {
+-moz-appearance: textfield;
+}
+.custom-checkbox {
+position: relative;
+display: flex;
+align-items: flex-start;
+gap: 0.75rem;
+cursor: pointer;
+}
+.custom-checkbox input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+}
+.checkmark {
+height: 20px;
+width: 20px;
+min-width: 20px;
+background-color: #fff;
+border: 1px solid #d1d5db;
+border-radius: 4px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+margin-top: 2px;
+}
+.custom-checkbox input:checked ~ .checkmark {
+background-color: #4f46e5;
+border-color: #4f46e5;
+}
+.checkmark:after {
+content: "";
+display: none;
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+display: block;
+}
+.progress-bar {
+height: 6px;
+background-color: #e5e7eb;
+border-radius: 9999px;
+overflow: hidden;
+}
+.progress-value {
+height: 100%;
+background-color: #4f46e5;
+border-radius: 9999px;
+transition: width 0.5s;
+}
+select {
+appearance: none;
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+background-repeat: no-repeat;
+background-position: right 0.75rem center;
+background-size: 1rem;
+padding-right: 2.5rem;
+}
+.terms-content {
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.3s ease-out;
+}
+.terms-content.show {
+max-height: 500px;
+transition: max-height 0.5s ease-in;
+}
+</style>
+</head>
+<body>
+<div class="min-h-screen flex flex-col">
+<header class="bg-white shadow-sm py-4">
+<div class="container mx-auto px-4 flex items-center justify-between">
+<div class="flex items-center">
+<h1 class="text-2xl font-bold text-primary">KOA TUTORS</h1>
+<span class="mx-2 text-gray-300">|</span>
+<span class="text-gray-600 font-medium"> Tutor Verification Platform</span>
+</div>
+</div>
+</header>
+<main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+<div class="bg-white shadow-md rounded-lg p-8 mb-8">
+<div class="mb-8 text-center">
+<h1 class="text-3xl font-bold text-gray-800 mb-4">Tutor Verification Form</h1>
+<p class="text-gray-600 max-w-2xl mx-auto">Join our platform to connect with students and share your knowledge. Complete this form to become a verified tutor and start teaching on our platform.</p>
+</div>
+<div class="mb-8">
+<div class="progress-bar">
+<div class="progress-value" style="width: 0%"></div>
+</div>
+<div class="flex justify-between mt-2 text-sm text-gray-500">
+<span>Personal Info</span>
+<span>Expertise</span>
+<span>Documents</span>
+<span>Terms</span>
+<span>Complete</span>
+</div>
+</div>
+<form id="tutorForm" class="space-y-8">
+<!-- Personal Information Section -->
+<section id="section1" class="space-y-6">
+<h2 class="text-xl font-semibold text-gray-800 pb-2 border-b border-gray-200">Personal Information</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label for="fullName" class="form-label required">Full Name</label>
+<input type="text" id="fullName" name="fullName" class="form-input" required placeholder="Enter your full name">
+</div>
+<div>
+<label for="email" class="form-label required">Email Address</label>
+<input type="email" id="email" name="email" class="form-input" required placeholder="Enter your email address">
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label for="phone" class="form-label">Phone Number</label>
+<input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter your phone number">
+</div>
+<div>
+<label for="education" class="form-label">Education Level</label>
+<select id="education" name="education" class="form-input pr-8">
+<option value="" disabled selected>Select your education level</option>
+<option value="bachelor">Bachelor's Degree</option>
+<option value="master">Master's Degree</option>
+<option value="phd">PhD</option>
+<option value="other">Other</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Expertise Section -->
+<section id="section2" class="space-y-6 hidden">
+<h2 class="text-xl font-semibold text-gray-800 pb-2 border-b border-gray-200">Expertise & Availability</h2>
+<div>
+<label for="subjects" class="form-label">Subject Expertise/Areas</label>
+<input type="text" id="subjects" name="subjects" class="form-input" placeholder="e.g., Mathematics, Physics, English Literature">
+<p class="mt-1 text-sm text-gray-500">Separate multiple subjects with commas</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label for="experience" class="form-label">Teaching Experience (years)</label>
+<input type="number" id="experience" name="experience" min="0" class="form-input" placeholder="Enter years of experience">
+</div>
+<div>
+<label for="ageGroup" class="form-label">Preferred Age Group to Teach</label>
+<select id="ageGroup" name="ageGroup" class="form-input pr-8">
+<option value="" disabled selected>Select age group</option>
+<option value="elementary">Elementary School (6-10)</option>
+<option value="middle">Middle School (11-13)</option>
+<option value="high">High School (14-18)</option>
+<option value="college">College/University</option>
+<option value="adult">Adult Education</option>
+</select>
+</div>
+</div>
+<div>
+<label class="form-label">Available Time Slots</label>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<div class="custom-checkbox">
+<input type="checkbox" id="morning-weekday" name="timeSlots" value="morning-weekday">
+<span class="checkmark"></span>
+<label for="morning-weekday">Weekday Mornings</label>
+</div>
+<div class="custom-checkbox">
+<input type="checkbox" id="afternoon-weekday" name="timeSlots" value="afternoon-weekday">
+<span class="checkmark"></span>
+<label for="afternoon-weekday">Weekday Afternoons</label>
+</div>
+<div class="custom-checkbox">
+<input type="checkbox" id="evening-weekday" name="timeSlots" value="evening-weekday">
+<span class="checkmark"></span>
+<label for="evening-weekday">Weekday Evenings</label>
+</div>
+<div class="custom-checkbox">
+<input type="checkbox" id="weekend" name="timeSlots" value="weekend">
+<span class="checkmark"></span>
+<label for="weekend">Weekends</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Document Upload Section -->
+<section id="section3" class="space-y-6 hidden">
+<h2 class="text-xl font-semibold text-gray-800 pb-2 border-b border-gray-200">Document Upload</h2>
+<div class="space-y-4">
+<div>
+<label class="form-label">Resume/CV</label>
+<label class="form-label">Teaching Certificates (if applicable)</label>
+<label class="form-label">Front/Back View of ID</label>
+<label class="block text-sm font-medium text-gray-700 mb-1">Please send Documents to;</label>
+<a href="https://wa.me/233550892590?text=Hello%2C%20please%20these%20are%20my%20documents" target="_blank" class="text-blue-600 underline">
+  Koa tutors
+</a>
+</div>
+</section>
+<!-- Terms and Conditions Section -->
+<section id="section4" class="space-y-6 hidden">
+<h2 class="text-xl font-semibold text-gray-800 pb-2 border-b border-gray-200">Terms and Conditions</h2>
+<div class="bg-gray-50 p-4 rounded-lg">
+<div class="flex justify-between items-center cursor-pointer" id="termsToggle">
+<h3 class="font-medium text-gray-800">Tutor Agreement Terms</h3>
+<div class="w-6 h-6 flex items-center justify-center text-gray-500">
+<i class="ri-arrow-down-s-line ri-lg"></i>
+</div>
+</div>
+<div class="terms-content mt-4 text-gray-600 text-sm space-y-3">
+<p><strong>1. Services and Responsibilities</strong></p>
+<p>As a tutor on our platform, you agree to provide educational services to students in your areas of expertise. You are responsible for maintaining accurate information about your qualifications, availability, and rates.</p>
+<p><strong>2. Payment Terms</strong></p>
+<p>Our platform charges a 20% service fee on all completed sessions. Payments are processed within 5-7 business days after session completion and student confirmation. Tutors are responsible for any applicable taxes on their earnings.</p>
+<p><strong>3. Cancellation Policy</strong></p>
+<p>Cancellations made more than 24 hours before a scheduled session incur no penalty. Cancellations within 24 hours may result in a 50% fee to the student, of which you will receive 50%. Repeated cancellations may affect your profile ranking.</p>
+<p><strong>4. Intellectual Property</strong></p>
+<p>Any materials you create and share on the platform remain your intellectual property. However, you grant our platform a license to use these materials for promotional purposes.</p>
+<p><strong>5. Code of Conduct</strong></p>
+<p>Tutors must maintain professional behavior at all times. Any form of discrimination, harassment, or inappropriate conduct will result in immediate account termination.</p>
+<p><strong>6. Term and Termination</strong></p>
+<p>This agreement remains in effect until either party terminates it. We reserve the right to suspend or terminate accounts that violate our terms or receive consistently poor reviews.</p>
+</div>
+</div>
+<div class="custom-checkbox">
+<input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+<span class="checkmark"></span>
+<label for="agreeTerms" class="text-gray-700">I have read and agree to the <a href="#" class="text-primary hover:underline">Terms and Conditions</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a></label>
+</div>
+</section>
+<!-- Navigation Buttons -->
+<div class="flex justify-between pt-4">
+<button type="button" id="prevBtn" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-button hover:bg-gray-50 hidden !rounded-button whitespace-nowrap">Previous</button>
+<div class="ml-auto flex space-x-3">
+<button type="button" id="saveBtn" class="px-6 py-2 border border-primary text-primary rounded-button hover:bg-primary hover:text-white !rounded-button whitespace-nowrap">Save as Draft</button>
+<button type="button" id="nextBtn" class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary/90 !rounded-button whitespace-nowrap">Next</button>
+<button type="submit" id="submitBtn" class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary/90 hidden !rounded-button whitespace-nowrap">Submit Application</button>
+</div>
+</div>
+</form>
+</div>
+<!-- Success Message (Initially Hidden) -->
+<div id="successMessage" class="hidden bg-green-50 border border-green-200 text-green-700 p-6 rounded-lg text-center">
+<div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+<i class="ri-check-line ri-2x text-green-500"></i>
+</div>
+<h2 class="text-2xl font-bold mb-2">Application Submitted Successfully!</h2>
+<p class="mb-4">Thank you for applying to become a tutor on our platform. We will review your application and get back to you within 2-3 business days.</p>
+<a href="Tutors_Dashboard.html" class="px-6 py-2 bg-green-600 text-white rounded-button hover:bg-green-700 !rounded-button whitespace-nowrap inline-block">
+  Return to Homepage
+</a></div>
+</main>
+</div>
+<!-- Firebase SDKs for v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+<script>
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBovkGC2GNAIBcChSQdaGkLjc9icDCANb8",
+    authDomain: "koa-tutors-2751e.firebaseapp.com",
+    projectId: "koa-tutors-2751e",
+    storageBucket: "koa-tutors-2751e.firebasestorage.app",
+    messagingSenderId: "426422439529",
+    appId: "1:426422439529:web:3d7178311535d087bd5cf8"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      const userId = user.uid;
+
+      document.getElementById('tutorForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = {
+          fullName: document.getElementById('fullName').value,
+          email: document.getElementById('email').value,
+          phoneNumber: document.getElementById('phone').value,
+          educationLevel: document.getElementById('education').value,
+          subjectExpect: document.getElementById('subjects').value,
+          teachingExperience: document.getElementById('experience').value,
+          preferedAge: document.getElementById('ageGroup').value,
+          submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        db.collection('tutor_verification').doc(userId).set(formData)
+          .then(() => {
+            document.getElementById('tutorForm').reset();
+            // Optionally show a custom message on your page instead of alert
+            // Example: document.getElementById('statusMessage').textContent = "Submitted!"
+          })
+          .catch((error) => {
+            console.error("Submission error:", error);
+            // Optionally log error somewhere visible in your UI
+          });
+      });
+    } else {
+      // Optional: redirect or show login-required message
+    }
+  });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Add click handlers for custom checkboxes
+document.querySelectorAll('.custom-checkbox').forEach(checkbox => {
+  const checkmark = checkbox.querySelector('.checkmark');
+  const input = checkbox.querySelector('input[type="checkbox"]');
+  
+  checkmark.addEventListener('click', (e) => {
+    e.preventDefault();
+    input.checked = !input.checked;
+    
+    // Trigger change event
+    const event = new Event('change', {
+      bubbles: true,
+      cancelable: true,
+    });
+    input.dispatchEvent(event);
+  });
+});
+// Form navigation  
+const sections = ['section1', 'section2', 'section3', 'section4'];
+let currentSection = 0;
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const submitBtn = document.getElementById('submitBtn');
+const progressBar = document.querySelector('.progress-value');
+function updateSection() {
+// Hide all sections
+sections.forEach(section => {
+document.getElementById(section).classList.add('hidden');
+});
+// Show current section
+document.getElementById(sections[currentSection]).classList.remove('hidden');
+// Update progress bar
+progressBar.style.width = `${(currentSection / (sections.length - 1)) * 100}%`;
+// Update buttons
+prevBtn.classList.toggle('hidden', currentSection === 0);
+nextBtn.classList.toggle('hidden', currentSection === sections.length - 1);
+submitBtn.classList.toggle('hidden', currentSection !== sections.length - 1);
+}
+prevBtn.addEventListener('click', function() {
+if (currentSection > 0) {
+currentSection--;
+updateSection();
+}
+});
+nextBtn.addEventListener('click', function() {
+if (currentSection < sections.length - 1) {
+// Remove existing error messages
+document.querySelectorAll('.error-message').forEach(el => el.remove());
+let isValid = true;
+// Validate current section
+if (currentSection === 0) {
+const fullName = document.getElementById('fullName');
+const email = document.getElementById('email');
+if (!fullName.value.trim()) {
+isValid = false;
+const error = document.createElement('div');
+error.className = 'error-message text-red-500 text-sm mt-1';
+error.textContent = 'Full name is required';
+fullName.parentNode.appendChild(error);
+fullName.classList.add('border-red-500');
+}
+if (!email.value.trim()) {
+isValid = false;
+const error = document.createElement('div');
+error.className = 'error-message text-red-500 text-sm mt-1';
+error.textContent = 'Email is required';
+email.parentNode.appendChild(error);
+email.classList.add('border-red-500');
+}
+if (!isValid) {
+const firstError = document.querySelector('.error-message');
+if (firstError) {
+firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+return;
+}
+} else if (currentSection === 3) {
+const agreeTerms = document.getElementById('agreeTerms');
+if (!agreeTerms.checked) {
+isValid = false;
+const error = document.createElement('div');
+error.className = 'error-message text-red-500 text-sm mt-1';
+error.textContent = 'You must agree to the terms and conditions';
+agreeTerms.parentNode.appendChild(error);
+return;
+}
+}
+if (isValid) {
+// Animate progress bar
+const progressBar = document.querySelector('.progress-value');
+const currentWidth = (currentSection / (sections.length - 1)) * 100;
+const targetWidth = ((currentSection + 1) / (sections.length - 1)) * 100;
+let start = null;
+function animate(timestamp) {
+if (!start) start = timestamp;
+const progress = timestamp - start;
+const percentage = Math.min((progress / 300) * (targetWidth - currentWidth) + currentWidth, targetWidth);
+progressBar.style.width = `${percentage}%`;
+if (progress < 300) {
+requestAnimationFrame(animate);
+} else {
+currentSection++;
+updateSection();
+// Scroll to top of new section with offset for header
+const newSection = document.getElementById(sections[currentSection]);
+const headerOffset = 100;
+const elementPosition = newSection.getBoundingClientRect().top;
+const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+window.scrollTo({
+top: offsetPosition,
+behavior: 'smooth'
+});
+}
+}
+requestAnimationFrame(animate);
+}
+}
+});
+// Add input event listeners to remove error styling
+document.getElementById('fullName').addEventListener('input', function() {
+this.classList.remove('border-red-500');
+const error = this.parentNode.querySelector('.error-message');
+if (error) error.remove();
+});
+document.getElementById('email').addEventListener('input', function() {
+this.classList.remove('border-red-500');
+const error = this.parentNode.querySelector('.error-message');
+if (error) error.remove();
+});
+document.getElementById('agreeTerms').addEventListener('change', function() {
+const error = this.parentNode.querySelector('.error-message');
+if (error) error.remove();
+});
+// Initialize first section
+updateSection();
+// Terms and conditions toggle
+const termsToggle = document.getElementById('termsToggle');
+const termsContent = document.querySelector('.terms-content');
+termsToggle.addEventListener('click', function() {
+termsContent.classList.toggle('show');
+const icon = termsToggle.querySelector('i');
+if (termsContent.classList.contains('show')) {
+icon.classList.remove('ri-arrow-down-s-line');
+icon.classList.add('ri-arrow-up-s-line');
+} else {
+icon.classList.remove('ri-arrow-up-s-line');
+icon.classList.add('ri-arrow-down-s-line');
+}
+});
+// File input display
+const fileInputs = ['resume', 'certificates', 'photo'];
+
+fileInputs.forEach(input => {
+  const fileInput = document.getElementById(input);
+  const fileNameDisplay = document.getElementById(`${input}FileName`);
+
+  if (fileInput && fileNameDisplay) { // ✅ check if both elements exist
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files.length > 0) {
+        if (fileInput.multiple && fileInput.files.length > 1) {
+          fileNameDisplay.textContent = `${fileInput.files.length} files selected`;
+        } else {
+          fileNameDisplay.textContent = fileInput.files[0].name;
+        }
+      } else {
+        fileNameDisplay.textContent = 'No file chosen';
+      }
+    });
+  }
+});
+// Form submission
+const tutorForm = document.getElementById('tutorForm');
+const successMessage = document.getElementById('successMessage');
+tutorForm.addEventListener('submit', function(e) {
+e.preventDefault();
+// Check if terms are agreed
+const agreeTerms = document.getElementById('agreeTerms');
+if (!agreeTerms.checked) {
+alert('You must agree to the terms and conditions to proceed.');
+return;
+}
+// Simulate form submission
+submitBtn.disabled = true;
+submitBtn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> Submitting...';
+setTimeout(() => {
+tutorForm.closest('.bg-white').classList.add('hidden');
+successMessage.classList.remove('hidden');
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}, 2000);
+});
+// Save as draft functionality
+const saveBtn = document.getElementById('saveBtn');
+saveBtn.addEventListener('click', function() {
+saveBtn.innerHTML = '<i class="ri-check-line"></i> Saved';
+saveBtn.classList.add('bg-green-50');
+setTimeout(() => {
+saveBtn.innerHTML = 'Save as Draft';
+saveBtn.classList.remove('bg-green-50');
+}, 2000);
+});
+});
+</script>
+
+</body>
+</html>

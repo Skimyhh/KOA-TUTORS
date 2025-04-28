@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Cards</title>
+  <link href="dist/output.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+  :where([class^="ri-"])::before { content: "\f3c2"; }
+  body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+  }
+  .dashboard-card {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  }
+  .dashboard-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  }
+  input:focus,
+  select:focus,
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  }
+  .progress-bar {
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  }
+  .progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  }
+  </style>
+  </head>
+<body>
+  <div class="min-h-screen flex flex-col">
+    <header class="bg-white shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center">
+    <h1 class="text-2xl font-bold text-primary">KOA TUTORS</h1>
+    </div>
+    <div class="md:hidden w-10 h-10 flex items-center justify-center">
+    <i class="ri-menu-line text-gray-700 ri-lg"></i>
+    </div>
+    </div>
+    </header>
+    <!-- Scrollable container for the form -->
+<div class="max-h-[500px] overflow-y-auto px-4 py-2">
+<!-- Children Progress -->
+<h2 class="text-xl font-bold text-gray-800 mb-4">Student's Progress</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<div class="dashboard-card p-6 rounded">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-gray-800 text-lg" id="parentStudentProgresstutors1">-</h3>
+<p class="text-gray-600"></p>
+</div>
+<div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium" id="parentStudentGradetutors1">
+-
+</div>
+</div>
+<div class="mb-4">
+<div class="flex justify-between mb-1">
+<span class="text-sm text-gray-600">Overall Progress</span>
+<span class="text-sm font-medium text-gray-800" id="progresspercentagetutors1">-</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-primary" style="width: 0%" id="progressFilltutors1"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="bg-gray-50 p-3 rounded">
+<p class="text-sm text-gray-500">Latest Grade</p>
+<p class="text-lg font-bold text-gray-800" id="parentStudentPerformancetutors1">-</p>
+</div>
+</div>
+<div class="flex justify-between">
+<button class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+<i class="ri-file-list-line mr-1"></i> 
+</button>
+<button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm whitespace-nowrap !rounded-button">
+Contact Tutor
+</button>
+</div>
+</div>
+
+
+<div class="dashboard-card p-6 rounded">
+  <div class="flex justify-between items-start mb-4">
+  <div>
+  <h3 class="font-bold text-gray-800 text-lg" id="parentStudentProgresstutors2">-</h3>
+  <p class="text-gray-600"></p>
+  </div>
+  <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium" id="parentStudentGradetutors2">
+  -
+  </div>
+  </div>
+  <div class="mb-4">
+  <div class="flex justify-between mb-1">
+  <span class="text-sm text-gray-600">Overall Progress</span>
+  <span class="text-sm font-medium text-gray-800" id="progresspercentagetutors2">-</span>
+  </div>
+  <div class="progress-bar">
+  <div class="progress-fill bg-primary" style="width: 0%" id="progressFilltutors2"></div>
+  </div>
+  </div>
+  <div class="grid grid-cols-2 gap-4 mb-4">
+  <div class="bg-gray-50 p-3 rounded">
+  <p class="text-sm text-gray-500">Latest Grade</p>
+  <p class="text-lg font-bold text-gray-800" id="parentStudentPerformancetutors2">-</p>
+  </div>
+  </div>
+  <div class="flex justify-between">
+  <button class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+  <i class="ri-file-list-line mr-1"></i>
+  </button>
+  <button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm whitespace-nowrap !rounded-button">
+  Contact Tutor
+  </button>
+  </div>
+  </div>
+
+  <div class="dashboard-card p-6 rounded">
+    <div class="flex justify-between items-start mb-4">
+    <div>
+    <h3 class="font-bold text-gray-800 text-lg" id="parentStudentProgresstutors3">-</h3>
+    <p class="text-gray-600"></p>
+    </div>
+    <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium" id="parentStudentGradetutors3">
+    -
+    </div>
+    </div>
+    <div class="mb-4">
+    <div class="flex justify-between mb-1">
+    <span class="text-sm text-gray-600">Overall Progress</span>
+    <span class="text-sm font-medium text-gray-800" id="progresspercentagetutors3">-</span>
+    </div>
+    <div class="progress-bar">
+    <div class="progress-fill bg-primary" style="width: 0%" id="progressFilltutors3"></div>
+    </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="bg-gray-50 p-3 rounded">
+    <p class="text-sm text-gray-500">Latest Grade</p>
+    <p class="text-lg font-bold text-gray-800" id="parentStudentPerformancetutors3">-</p>
+    </div>
+    </div>
+    <div class="flex justify-between">
+    <button class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+    <i class="ri-file-list-line mr-1"></i>
+    </button>
+    <button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm whitespace-nowrap !rounded-button">
+    Contact Tutor
+    </button>
+    </div>
+    </div>
+
+<div class="dashboard-card p-6 rounded">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-gray-800 text-lg" id="parentStudentProgresstutors4">-</h3>
+<p class="text-gray-600"></p>
+</div>
+<div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium" id="parentStudentGradetutors4">
+-
+</div>
+</div>
+<div class="mb-4">
+<div class="flex justify-between mb-1">
+<span class="text-sm text-gray-600">Overall Progress</span>
+<span class="text-sm font-medium text-gray-800" id="progresspercentagetutors4">-</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-primary" style="width: 0%" id="progressFilltutors4"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="bg-gray-50 p-3 rounded">
+<p class="text-sm text-gray-500">Latest Grade</p>
+<p class="text-lg font-bold text-gray-800" id="parentStudentPerformancetutors4">-</p>
+</div>
+</div>
+<div class="flex justify-between">
+<button class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+<i class="ri-file-list-line mr-1"></i>
+</button>
+<button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm whitespace-nowrap !rounded-button">
+Contact Tutor
+</button>
+</div>
+</div>
+
+<div class="dashboard-card p-6 rounded">
+  <div class="flex justify-between items-start mb-4">
+  <div>
+  <h3 class="font-bold text-gray-800 text-lg" id="parentStudentProgresstutors5">-</h3>
+  <p class="text-gray-600"></p>
+  </div>
+  <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium" id="parentStudentGradetutors5">
+  -
+  </div>
+  </div>
+  <div class="mb-4">
+  <div class="flex justify-between mb-1">
+  <span class="text-sm text-gray-600">Overall Progress</span>
+  <span class="text-sm font-medium text-gray-800" id="progresspercentagetutors5">-</span>
+  </div>
+  <div class="progress-bar">
+  <div class="progress-fill bg-primary" style="width: 0%" id="progressFilltutors5"></div>
+  </div>
+  </div>
+  <div class="grid grid-cols-2 gap-4 mb-4">
+  <div class="bg-gray-50 p-3 rounded">
+  <p class="text-sm text-gray-500">Latest Grade</p>
+  <p class="text-lg font-bold text-gray-800" id="parentStudentPerformancetutors5">-</p>
+  </div>
+  </div>
+  <div class="flex justify-between">
+  <button class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+  <i class="ri-file-list-line mr-1"></i>
+  </button>
+  <button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm whitespace-nowrap !rounded-button">
+  Contact Tutor
+  </button>
+  </div>
+  </div>
+
+  <div class="dashboard-card p-6 rounded">
+    <div class="flex justify-between items-start mb-4">
+    <div>
+    <h3 class="font-bold text-gray-800 text-lg" id="parentStudentProgresstutors6">-</h3>
+    <p class="text-gray-600"></p>
+    </div>
+    <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium" id="parentStudentGradetutors6">
+    -
+    </div>
+    </div>
+    <div class="mb-4">
+    <div class="flex justify-between mb-1">
+    <span class="text-sm text-gray-600">Overall Progress</span>
+    <span class="text-sm font-medium text-gray-800" id="progresspercentagetutors6">-</span>
+    </div>
+    <div class="progress-bar">
+    <div class="progress-fill bg-primary" style="width: 0%" id="progressFilltutors6"></div>
+    </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="bg-gray-50 p-3 rounded">
+    <p class="text-sm text-gray-500">Latest Grade</p>
+    <p class="text-lg font-bold text-gray-800" id="parentStudentPerformancetutors6">-</p>
+    </div>
+    </div>
+    <div class="flex justify-between">
+    <button class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+    <i class="ri-file-list-line mr-1"></i>
+    </button>
+    <button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm whitespace-nowrap !rounded-button">
+    Contact Tutor
+    </button>
+    </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+      import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+      import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    
+      const firebaseConfig = {
+  apiKey: "AIzaSyBovkGC2GNAIBcChSQdaGkLjc9icDCANb8",
+  authDomain: "koa-tutors-2751e.firebaseapp.com",
+  projectId: "koa-tutors-2751e",
+  storageBucket: "koa-tutors-2751e.firebasestorage.app",
+  messagingSenderId: "426422439529",
+  appId: "1:426422439529:web:3d7178311535d087bd5cf8"
+};
+
+      const app  = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db   = getFirestore(app);
+    
+      onAuthStateChanged(auth, user => {
+        if (!user) return;
+    
+        const docRef = doc(db, "dashboardcardtutors", user.uid);
+        onSnapshot(docRef, snap => {
+          if (!snap.exists()) return;
+          const data = snap.data();
+    
+          Object.entries(data).forEach(([field, value]) => {
+            const el = document.getElementById(field);
+            if (!el) return;
+    
+            // if it's your progress-fill bar, write to style.width
+            if (el.classList.contains("progress-fill")) {
+              // expect `value` to be like "85%" (or if numeric, do `${value}%`)
+              el.style.width = value;
+            } else {
+              el.innerText = value;
+            }
+          });
+        });
+      });
+    </script>
+    
+    
+</body>
+</html>

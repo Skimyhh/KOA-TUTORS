@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutor Dashboard</title>
+<link href="dist/output.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9fafb;
+}
+.dashboard-card {
+background-color: white;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+transition: all 0.2s ease;
+}
+.dashboard-card:hover {
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+transform: translateY(-2px);
+}
+input:focus,
+select:focus,
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.progress-bar {
+height: 8px;
+background-color: #e5e7eb;
+border-radius: 4px;
+overflow: hidden;
+}
+.progress-fill {
+height: 100%;
+border-radius: 4px;
+}
+</style>
+<style>
+  /* Dark mode styles */
+  .dark {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  }
+  .dark .bg-white {
+  background-color: #2d2d2d;
+  }
+  .dark .text-gray-800 {
+  color: #ffffff;
+  }
+  .dark .text-gray-600 {
+  color: #a0aec0;
+  }
+  .dark .bg-gray-100 {
+  background-color: #3d3d3d;
+  }
+  .dark .bg-gray-50 {
+  background-color: #363636;
+  }
+  .dark .border-gray-200 {
+  border-color: #404040;
+  }
+  .dark .dashboard-card {
+  background-color: #2d2d2d;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  .dark .dashboard-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  </style>
+</head>
+<body>
+<div class="min-h-screen">
+<!-- Top Navigation -->
+<header class="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
+<div class="flex items-center">
+<h1 class="text-2xl font-bold text-primary">KOA TUTORS</h1>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 rounded-full bg-gray-100 text-gray-600 w-10 h-10 flex items-center justify-center">
+<i class="ri-notification-3-line"></i>
+</button>
+<div class="flex items-center space-x-2 relative">
+<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer" id="menuTrigger">
+<i class="ri-user-line text-gray-600"></i>
+</div>
+<span id="navProfileName" class="hidden font-medium text-gray-800 cursor-pointer" onclick="document.getElementById('menuTrigger').click()">Mrs. Emily Anderson</span>
+<div id="menuDropdown" class="hidden absolute right-0 top-12 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+<div class="p-4 border-b border-gray-200">
+<button id="darkModeToggle" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded flex items-center">
+<i class="ri-moon-line mr-2"></i>
+Dark Mode
+</button>
+<button id="settingsBtn" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded flex items-center">
+<i class="ri-settings-3-line mr-2"></i>
+Settings
+</button>
+<button id="profileBtn" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded flex items-center">
+<i class="ri-user-line mr-2"></i>
+Profile
+</button>
+<button id="logoutBtn" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded flex items-center text-red-600">
+<i class="ri-logout-box-line mr-2"></i>
+Logout
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Settings Modal -->
+<div id="settingsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+<div class="bg-white rounded-lg p-6 w-96">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-xl font-bold">Settings</h3>
+<button onclick="closeSettingsModal()" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span>Email Notifications</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" class="sr-only peer" checked>
+</label>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+<div class="flex items-center justify-between">
+<span>SMS Notifications</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" class="sr-only peer">
+</label>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Profile Modal -->
+<div id="profileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+<div class="bg-white rounded-lg p-6 w-96">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-xl font-bold">Complete Your Profile</h3>
+<button onclick="closeProfileModal()" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line text-2xl"></i>
+</button>
+</div>
+
+<form id="profileForm" class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+<input type="text" name="fullName" class="w-full px-3 py-2 border border-gray-300 rounded focus:border-primary" required>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+<input type="text" name="specialization" class="w-full px-3 py-2 border border-gray-300 rounded focus:border-primary" required>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Years of Experience</label>
+<input type="number" name="yearsExperience" class="w-full px-3 py-2 border border-gray-300 rounded focus:border-primary" required>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+<textarea name="bio" class="w-full px-3 py-2 border border-gray-300 rounded focus:border-primary" rows="3" required></textarea>
+</div>
+<div>
+  <label class="block text-sm font-medium text-gray-700 mb-1"></label>
+  <a href="Tutoring-Agreement-Form.html" class="text-blue-600 underline">
+    Verify Tutor
+  </a>
+</div>
+<button type="submit" class="w-full bg-primary text-white py-2 rounded font-medium">Save Profile</button>
+</form>
+
+</div>
+</div>
+<!-- Error Message Toast -->
+<div id="errorToast" class="hidden fixed top-4 right-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-lg z-50">
+<div class="flex items-center">
+<i class="ri-error-warning-line mr-2"></i>
+<p>Please complete your profile</p>
+</div>
+</div>
+</header>
+<main class="container mx-auto px-6 py-8">
+<!-- Welcome Section -->
+<div class="mb-8">
+<h2 class="text-2xl font-bold text-gray-800">Welcome back</h2>
+<p class="text-gray-600">Monitor your students' progress and manage your teaching schedule</p>
+</div>
+<!-- Quick Stats -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="dashboard-card p-6 rounded">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-gray-500 font-medium">Active Students</h3>
+<div class="w-10 h-10 rounded-full bg-indigo-100 text-primary flex items-center justify-center">
+<i class="ri-group-line ri-lg"></i>
+</div>
+</div>
+<p class="text-3xl font-bold text-gray-800" id='activeStudents'>-</p>
+<p class="text-sm text-gray-500 mt-2">
+Currently teaching
+</p>
+</div>
+<div class="dashboard-card p-6 rounded">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-gray-500 font-medium">Teaching Hours</h3>
+<div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+<i class="ri-time-line ri-lg"></i>
+</div>
+</div>
+<p class="text-3xl font-bold text-gray-800" id='teachingHours'>-</p>
+<p class="text-sm text-gray-500 mt-2">
+This month
+</p>
+</div>
+<div class="dashboard-card p-6 rounded">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-gray-500 font-medium">Upcoming Sessions</h3>
+<div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+<i class="ri-calendar-line ri-lg"></i>
+</div>
+</div>
+<p class="text-3xl font-bold text-gray-800" id='upcomingSessions'>-</p>
+<p class="text-sm text-gray-500 mt-2">
+  This Week
+</p>
+</div>
+<div class="dashboard-card p-6 rounded">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-gray-500 font-medium">Total Earnings</h3>
+<div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center">
+<i class="ri-money-dollar-circle-line ri-lg"></i>
+</div>
+</div>
+<p class="text-3xl font-bold text-yellow-600" id='totalEarnings'>-</p>
+<p class="text-sm text-gray-500 mt-2">
+This month
+</p>
+</div>
+</div>
+<!-- Children Progress -->
+<h2 class="text-xl font-bold text-gray-800 mb-4">My Students' Progress</h2>
+<button onclick="window.location.href='dashboard_cards(tutors).html'" class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+  <i class="ri-file-list-line mr-1"></i> View All
+</button>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<div class="dashboard-card p-6 rounded">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-gray-800 text-lg" id="tutorChildrenProgress1">-</h3>
+<p class="text-gray-600"></p>
+</div>
+<div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium" id="tutorChildrenProgess1Grade">
+-
+</div>
+</div>
+<div class="mb-4">
+<div class="flex justify-between mb-1">
+<span class="text-sm text-gray-600">Total Progress</span>
+<span class="text-sm font-medium text-gray-800"></span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-primary" style="width: 0%"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="bg-gray-50 p-3 rounded">
+<p class="text-sm text-gray-500">Performance</p>
+<p class="text-lg font-bold text-gray-800" id="tutorChildrenPerformance1">-</p>
+</div>
+</div>
+<div class="flex justify-between">
+<button class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+<i class="ri-file-list-line mr-1"></i> 
+</button>
+<button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm whitespace-nowrap !rounded-button">
+Contact Parent
+</button>
+</div>
+</div>
+<div class="dashboard-card p-6 rounded">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-gray-800 text-lg" id="tutorChildrenProgress2">-</h3>
+<p class="text-gray-600"></p>
+</div>
+<div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium"  id="tutorChildrenProgess2Grade">
+-
+</div>
+</div>
+<div class="mb-4">
+<div class="flex justify-between mb-1">
+<span class="text-sm text-gray-600">Total Progress</span>
+<span class="text-sm font-medium text-gray-800"></span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-primary" style="width: 0%"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="bg-gray-50 p-3 rounded">
+<p class="text-sm text-gray-500">Performance</p>
+<p class="text-lg font-bold text-gray-800" id="tutorChildrenPerformance2">-</p>
+</div>
+</div>
+<div class="flex justify-between">
+<button class="text-primary font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+<i class="ri-file-list-line mr-1"></i>
+</button>
+<button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm whitespace-nowrap !rounded-button">
+Contact Parent
+</button>
+</div>
+</div>
+</div>
+<!-- Schedule and Payment Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Schedule Overview -->
+<div class="dashboard-card p-6 rounded lg:col-span-2">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-bold text-gray-800">Tutoring Schedule</h2>
+<button class="bg-primary text-white px-4 py-2 rounded font-medium text-sm flex items-center whitespace-nowrap !rounded-button">
+<i class="ri-add-line mr-1"></i> Add Session
+</button>
+</div>
+<div class="mb-4">
+<div class="grid grid-cols-7 gap-2 mb-2">
+<div class="text-center text-sm text-gray-500">Mon</div>
+<div class="text-center text-sm text-gray-500">Tue</div>
+<div class="text-center text-sm text-gray-500">Wed</div>
+<div class="text-center text-sm text-gray-500">Thu</div>
+<div class="text-center text-sm text-gray-500">Fri</div>
+<div class="text-center text-sm text-gray-500">Sat</div>
+<div class="text-center text-sm text-gray-500">Sun</div>
+</div>
+<div class="grid grid-cols-7 gap-2">
+<div class="aspect-square p-2 border border-gray-200 rounded text-center">
+<div class="text-sm font-medium">15</div>
+</div>
+<div class="aspect-square p-2 border border-gray-200 rounded text-center">
+<div class="text-sm font-medium">16</div>
+</div>
+<div class="aspect-square p-2 border border-gray-200 rounded text-center">
+<div class="text-sm font-medium">17</div>
+</div>
+<div class="aspect-square p-2 border border-gray-200 rounded text-center bg-blue-50 border-primary">
+<div class="text-sm font-medium text-primary">18</div>
+<div class="text-xs bg-primary text-white rounded-full mt-1">2</div>
+</div>
+<div class="aspect-square p-2 border border-gray-200 rounded text-center">
+<div class="text-sm font-medium">19</div>
+<div class="text-xs bg-green-500 text-white rounded-full mt-1">1</div>
+</div>
+<div class="aspect-square p-2 border border-gray-200 rounded text-center">
+<div class="text-sm font-medium">20</div>
+</div>
+<div class="aspect-square p-2 border border-gray-200 rounded text-center">
+<div class="text-sm font-medium">21</div>
+</div>
+</div>
+</div>
+<h3 class="font-medium text-gray-800 mb-3">Upcoming Sessions</h3>
+<div class="space-y-3">
+<div class="flex items-center p-3 bg-blue-50 rounded">
+<div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+<i class="ri-book-open-line"></i>
+</div>
+<div class="flex-1">
+<p class="font-medium text-gray-800">Undefined</p>
+<p class="text-sm text-gray-600">Undefined</p>
+</div>
+<button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center">
+<i class="ri-more-2-fill"></i>
+</button>
+</div>
+<div class="flex items-center p-3 bg-purple-50 rounded">
+<div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-3">
+<i class="ri-book-open-line"></i>
+</div>
+<div class="flex-1">
+<p class="font-medium text-gray-800">Undefined</p>
+<p class="text-sm text-gray-600">Undefined</p>
+</div>
+<button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center">
+<i class="ri-more-2-fill"></i>
+</button>
+</div>
+<div class="flex items-center p-3 bg-green-50 rounded">
+<div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+<i class="ri-book-open-line"></i>
+</div>
+<div class="flex-1">
+<p class="font-medium text-gray-800">Undefined</p>
+<p class="text-sm text-gray-600">Undefined</p>
+</div>
+<button class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center">
+<i class="ri-more-2-fill"></i>
+</button>
+</div>
+</div>
+</div>
+<!-- Earnings Section -->
+<div class="dashboard-card p-6 rounded">
+<h2 class="text-xl font-bold text-gray-800 mb-6">Payment Overview</h2>
+<div class="bg-gray-50 p-4 rounded mb-6">
+<p class="text-sm text-gray-500 mb-1">This Month's Payment</p>
+<p class="text-2xl font-bold text-gray-800"></p>
+<div class="mt-2 text-sm text-gray-600 flex items-center">
+<i class="ri-information-line mr-1"></i>  Sessions per child
+</div>
+</div>
+<h3 class="font-medium text-gray-800 mb-3">Recent Payments</h3>
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-between p-3 border-b border-gray-100">
+<div>
+<p class="font-medium text-gray-800" id="tutor1PaymentName">-</p>
+<p class="text-sm text-gray-500" id="tutor1PaymentDate">-</p>
+</div>
+<p class="font-medium text-text-green-600" id="tutor1Payment">-</p>
+</div>
+<div class="flex items-center justify-between p-3 border-b border-gray-100">
+<div>
+<p class="font-medium text-gray-800" id="tutor2PaymentName">-</p>
+<p class="text-sm text-gray-500" id="tutor2PaymentDate">-</p>
+</div>
+<p class="font-medium text-gray-800" id="tutor2Payment">-</p>
+</div>
+<div class="flex items-center justify-between p-3">
+  <div>
+    <p class="font-medium text-gray-800" id="tutor3PaymentName">-</p>
+    <p class="text-sm text-gray-500" id="tutor3PaymentDate">-</p>
+    </div>
+    <p class="font-medium text-text-green-600" id="tutor3Payment">-</p>
+    </div>
+    <div class="flex items-center justify-between p-3 border-b border-gray-100"></div>
+<div>
+<p class="font-medium text-gray-800" id="tutor4PaymentName">-</p>
+<p class="text-sm text-gray-500" id="tutor4PaymentDate"></p>
+</div>
+<p class="font-medium text-gray-800" id="tutor4Payment">-</p>
+</div>
+<div class="flex items-center justify-between p-3"></div>
+</div>
+</div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const menuTrigger = document.getElementById('menuTrigger');
+const menuDropdown = document.getElementById('menuDropdown');
+const darkModeToggle = document.getElementById('darkModeToggle');
+const settingsBtn = document.getElementById('settingsBtn');
+const profileBtn = document.getElementById('profileBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const settingsModal = document.getElementById('settingsModal');
+const profileModal = document.getElementById('profileModal');
+const errorToast = document.getElementById('errorToast');
+const profileForm = document.getElementById('profileForm');
+// Check if profile is completed
+if (!localStorage.getItem('profileCompleted')) {
+errorToast.classList.remove('hidden');
+setTimeout(() => {
+errorToast.classList.add('hidden');
+}, 5000);
+}
+// Menu Toggle
+menuTrigger.addEventListener('click', () => {
+menuDropdown.classList.toggle('hidden');
+});
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+if (!menuTrigger.contains(e.target) && !menuDropdown.contains(e.target)) {
+menuDropdown.classList.add('hidden');
+}
+});
+// Dark Mode Toggle
+let isDarkMode = localStorage.getItem('darkMode') === 'true';
+if (isDarkMode) {
+document.documentElement.classList.add('dark');
+}
+darkModeToggle.addEventListener('click', () => {
+isDarkMode = !isDarkMode;
+localStorage.setItem('darkMode', isDarkMode);
+document.documentElement.classList.toggle('dark');
+updateDarkModeIcon();
+});
+function updateDarkModeIcon() {
+const icon = darkModeToggle.querySelector('i');
+icon.className = isDarkMode ? 'ri-sun-line mr-2' : 'ri-moon-line mr-2';
+}
+// Settings Modal
+settingsBtn.addEventListener('click', () => {
+settingsModal.classList.remove('hidden');
+});
+window.closeSettingsModal = function() {
+settingsModal.classList.add('hidden');
+};
+// Profile Modal
+profileBtn.addEventListener('click', () => {
+profileModal.classList.remove('hidden');
+});
+window.closeProfileModal = function() {
+profileModal.classList.add('hidden');
+};
+// Profile Form Submit
+profileForm.addEventListener('submit', (e) => {
+e.preventDefault();
+localStorage.setItem('profileCompleted', 'true');
+closeProfileModal();
+// You can add more logic here to save the form data
+});
+// Logout
+logoutBtn.addEventListener('click', () => {
+if (confirm('Are you sure you want to logout?')) {
+localStorage.removeItem('profileCompleted');
+window.location.href = 'index.html'; // Replace with your login page URL
+}
+});
+});
+</script>
+
+<script type="module">
+    // Firebase App (the core Firebase SDK) is always required and must be listed first
+       // Firebase App (the core Firebase SDK) is always required and must be listed first
+       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyBovkGC2GNAIBcChSQdaGkLjc9icDCANb8",
+  authDomain: "koa-tutors-2751e.firebaseapp.com",
+  projectId: "koa-tutors-2751e",
+  storageBucket: "koa-tutors-2751e.firebasestorage.app",
+  messagingSenderId: "426422439529",
+  appId: "1:426422439529:web:3d7178311535d087bd5cf8"
+};
+  
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
+
+    // Get reference to elements
+    const profileForm = document.getElementById('profileForm');
+    const welcomeText = document.querySelector('h2.text-2xl'); // Welcome back, Mrs. Anderson!
+    const navProfileName = document.getElementById("navProfileName"); // Top right nav name
+    const activeStudentsEl = document.getElementById("activeStudents");
+    const teachingHoursEl = document.getElementById("teachingHours");
+    const upcomingSessionsEl = document.getElementById("upcomingSessions");
+    const totalEarningsEl = document.getElementById("totalEarnings");
+    const tutor1PaymentNameEl = document.getElementById("tutor1PaymentName");
+    const tutor1PaymentDateEl = document.getElementById("tutor1PaymentDate");
+    const tutor1PaymentEl = document.getElementById("tutor1Payment");
+    const tutor2PaymentNameEl = document.getElementById("tutor2PaymentName");
+    const tutor2PaymentDateEl = document.getElementById("tutor2PaymentDate");
+    const tutor2PaymentEl = document.getElementById("tutor2Payment");
+    const tutor3PaymentNameEl = document.getElementById("tutor3PaymentName");
+    const tutor3PaymentDateEl = document.getElementById("tutor3PaymentDate");
+    const tutor3PaymentEl = document.getElementById("tutor3Payment");
+    const tutor4PaymentNameEl = document.getElementById("tutor4PaymentName");
+    const tutor4PaymentDateEl = document.getElementById("tutor4PaymentDate");
+    const tutor4PaymentEl = document.getElementById("tutor4Payment");
+    const tutorChildrenProgress1E1 = document.getElementById("tutorChildrenProgress1");
+    const tutorChildrenProgess1GradeE1 = document.getElementById("tutorChildrenProgess1Grade");
+    const tutorChildrenPerformance1E1 = document.getElementById("tutorChildrenPerformance1");
+    const tutorChildrenProgress2E1 = document.getElementById("tutorChildrenProgress2");
+    const tutorChildrenProgess2GradeE1 = document.getElementById("tutorChildrenProgess2Grade");
+    const tutorChildrenPerformance2E1 = document.getElementById("tutorChildrenPerformance2");
+    
+
+    async function loadProfile(userId) {
+      const profileRef = doc(db, "tutors", userId);
+      const profileSnap = await getDoc(profileRef);
+  
+      if (profileSnap.exists()) {
+        const data = profileSnap.data();
+        navProfileName.textContent = data.fullName;
+    navProfileName.classList.remove("hidden");
+
+        welcomeText.textContent = `Welcome back, ${data.fullName}!`;
+  
+        welcomeText.parentElement.classList.remove("hidden");
+           // ✅ Dashboard stats (use "—" if missing)
+    activeStudentsEl.textContent = data.activeStudents ?? '—';
+    teachingHoursEl.textContent = data.teachingHours ?? '—';
+    upcomingSessionsEl.textContent = data.upcomingSessions ?? '—';
+    totalEarningsEl.textContent = data.totalEarnings
+      ? `₵${data.totalEarnings}`
+      : '—';
+      tutor1PaymentNameEl.textContent = data.tutor1PaymentName ?? '—';
+      tutor1PaymentDateEl.textContent = data.tutor1PaymentDate ?? '—';
+      tutor1PaymentEl.textContent = data.tutor1Payment ?? '—';
+      tutor2PaymentNameEl.textContent = data.tutor2PaymentName ?? '—';
+      tutor2PaymentDateEl.textContent = data.tutor1PaymentDate ?? '—';
+      tutor2PaymentEl.textContent = data.tutor2Payment ?? '—';
+      tutor3PaymentNameEl.textContent = data.tutor3PaymentName ?? '—';
+      tutor3PaymentDateEl.textContent = data.tutor3PaymentDate ?? '—';
+      tutor3PaymentEl.textContent = data.tutor3Payment ?? '—';
+      tutor4PaymentNameEl.textContent = data.tutor4PaymentName ?? '—';
+      tutor4PaymentDateEl.textContent = data.tutor4PaymentDate ?? '—';
+      tutor4PaymentEl.textContent = data.tutor4Payment ?? '—';
+      tutorChildrenProgress1E1.textContent = data.tutorChildrenProgress1 ?? '—';
+      tutorChildrenProgess1GradeE1.textContent = data.tutorChildrenProgess1Grade ?? '—';
+      tutorChildrenPerformance1E1.textContent = data. tutorChildrenPerformance1 ?? '—';
+      tutorChildrenProgress2E1.textContent = data.tutorChildrenProgress2 ?? '—';
+      tutorChildrenProgess2GradeE1.textContent = data.tutorChildrenProgess2Grade ?? '—';
+      tutorChildrenPerformance2E1.textContent = data. tutorChildrenPerformance2 ?? '—';
+
+      } else {
+        navProfileName.classList.add("hidden");
+        welcomeText.parentElement.classList.add("hidden");
+        
+        activeStudentsEl.textContent = '—';
+        teachingHoursEl.textContent = '—';
+    upcomingSessionsEl.textContent = '—';
+    totalEarningsEl.textContent = '—';
+    tutor1PaymentNameEl.textContent = '—';
+    tutor1PaymentDateEl.textContent = '—';
+    tutor1PaymentEl.textContent = '—';
+    tutor2PaymentNameEl.textContent = '—';
+    tutor2PaymentDateEl.textContent = '—';
+    tutor2PaymentEl.textContent = '—';
+    tutor3PaymentNameEl.textContent = '—';
+    tutor3PaymentDateEl.textContent = '—';
+    tutor3PaymentEl.textContent = '—';
+    tutor4PaymentNameEl.textContent = '—';
+    tutor4PaymentDateEl.textContent = '—';
+    tutor4PaymentEl.textContent = '—';
+    tutorChildrenProgress1E1.textContent = '—';
+    tutorChildrenProgess1GradeE1.textContent = '—';
+    tutorChildrenPerformance1E1.textContent = '—';
+    tutorChildrenProgress2E1.textContent = '—';
+    tutorChildrenProgess2GradeE1.textContent = '—';
+    tutorChildrenPerformance2E1.textContent = '—';
+
+      }
+    }
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userId = user.uid;
+
+      // ✅ Load profile for this user
+      loadProfile(userId);
+
+    profileForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(profileForm);
+      const fullName = formData.get('fullName');
+      const specialization = formData.get('specialization');
+      const yearsExperience = formData.get('yearsExperience');
+      const bio = formData.get('bio');
+      
+  
+      await setDoc(doc(db, "tutors", userId), {
+        fullName,
+        specialization,
+        yearsExperience,
+        bio,
+      });
+  
+      localStorage.setItem("profileCompleted", "true");
+      closeProfileModal();
+      await loadProfile(userId);
+    });
+  
+    window.addEventListener("DOMContentLoaded", loadProfile);
+  }
+});
+  </script>
+</body>
+</html>

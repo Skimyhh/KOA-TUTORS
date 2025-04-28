@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parent Registration Form</title>
+<link href="dist/output.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9fafb;
+}
+.form-input {
+width: 100%;
+padding: 0.75rem 1rem;
+border: 1px solid #e5e7eb;
+border-radius: 8px;
+outline: none;
+transition: all 0.3s;
+}
+.form-input:focus {
+border-color: #4F46E5;
+box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+.form-label {
+display: block;
+margin-bottom: 0.5rem;
+font-weight: 500;
+color: #374151;
+}
+.terms-container {
+max-height: 200px;
+overflow-y: auto;
+padding: 1rem;
+border: 1px solid #e5e7eb;
+border-radius: 8px;
+background-color: #ffffff;
+}
+.custom-checkbox {
+position: relative;
+display: flex;
+align-items: center;
+cursor: pointer;
+}
+.custom-checkbox input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+.checkmark {
+height: 20px;
+width: 20px;
+background-color: #fff;
+border: 2px solid #d1d5db;
+border-radius: 4px;
+margin-right: 0.75rem;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+}
+.custom-checkbox input:checked ~ .checkmark {
+background-color: #4F46E5;
+border-color: #4F46E5;
+}
+.checkmark:after {
+content: "";
+display: none;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+display: block;
+}
+.file-upload {
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 2rem;
+border: 2px dashed #e5e7eb;
+border-radius: 8px;
+background-color: #ffffff;
+transition: all 0.3s;
+}
+.file-upload:hover {
+border-color: #4F46E5;
+}
+.file-upload input {
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+opacity: 0;
+cursor: pointer;
+}
+.custom-select {
+position: relative;
+width: 100%;
+}
+.custom-select select {
+display: none;
+}
+.select-selected {
+background-color: white;
+border: 1px solid #e5e7eb;
+border-radius: 8px;
+padding: 0.75rem 1rem;
+cursor: pointer;
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.select-selected:after {
+content: "";
+width: 0;
+height: 0;
+border-left: 5px solid transparent;
+border-right: 5px solid transparent;
+border-top: 5px solid #374151;
+}
+.select-items {
+position: absolute;
+background-color: white;
+top: 100%;
+left: 0;
+right: 0;
+z-index: 99;
+border: 1px solid #e5e7eb;
+border-radius: 0 0 8px 8px;
+max-height: 200px;
+overflow-y: auto;
+display: none;
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.select-items div {
+padding: 0.75rem 1rem;
+cursor: pointer;
+}
+.select-items div:hover {
+background-color: #f3f4f6;
+}
+.select-hide {
+display: none;
+}
+.same-as-selected {
+background-color: #f3f4f6;
+}
+.toggle-terms {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 1rem;
+background-color: #f3f4f6;
+border-radius: 8px;
+cursor: pointer;
+margin-bottom: 1rem;
+}
+</style>
+</head>
+<body>
+<div class="min-h-screen flex flex-col">
+<header class="bg-white shadow-sm">
+<div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+<div class="flex items-center">
+<h1 class="text-2xl font-bold text-primary">KOA TUTORS</h1>
+</div>
+<div class="md:hidden w-10 h-10 flex items-center justify-center">
+<i class="ri-menu-line text-gray-700 ri-lg"></i>
+</div>
+</div>
+</header>
+<main class="flex-grow py-10">
+<div class="max-w-3xl mx-auto px-4">
+<div class="bg-white shadow-md rounded-lg p-8 mb-8">
+<div class="text-center mb-8">
+<h1 class="text-3xl font-bold text-gray-900 mb-4">Book Tutor Form</h1>
+<p class="text-gray-600">Connect with qualified tutors to support your child's academic journey. Complete the form below to get started with personalized tutoring services.</p>
+</div>
+<!-- Scrollable container for the form -->
+<div class="max-h-[500px] overflow-y-auto px-4 py-2">
+<form id="tutorForm" class="space-y-8">
+<!-- Personal Information Section -->
+<div>
+<h2 class="text-xl font-semibold text-gray-800 mb-4">Parent Information</h2>
+<div class="space-y-4">
+<div>
+<label for="fullName" class="form-label">Parent's Full Name <span class="text-red-500">*</span></label>
+<input type="text" id="fullName" class="form-input" placeholder="Enter your full name" required>
+</div>
+<div>
+<label for="email" class="form-label">Email Address <span class="text-red-500">*</span></label>
+<input type="email" id="email" class="form-input" placeholder="Enter your email address" required>
+</div>
+<div>
+<label for="phone" class="form-label">Phone Number <span class="text-red-500">*</span></label>
+<input type="tel" id="phone" class="form-input" placeholder="Enter your phone number" required>
+</div>
+</div>
+</div>
+<!-- Student Information Section -->
+<div class="mt-8">
+<h2 class="text-xl font-semibold text-gray-800 mb-4">Student Information</h2>
+<div class="space-y-4">
+<div>
+<label for="studentName" class="form-label">Student's Full Name <span class="text-red-500">*</span></label>
+<input type="text" id="studentName" class="form-input" placeholder="Enter student's full name" required>
+</div>
+<div>
+<label for="studentAge" class="form-label">Student's Age <span class="text-red-500">*</span></label>
+<input type="number" id="studentAge" class="form-input" placeholder="Enter student's age" min="4" max="18" required>
+</div>
+<div>
+<label for="gradeLevel" class="form-label">Current Grade Level <span class="text-red-500">*</span></label>
+<div class="custom-select">
+<div class="select-selected">Select grade level</div>
+<div class="select-items select-hide">
+<div>Pre-K</div>
+<div>Kindergarten</div>
+<div>1st Grade</div>
+<div>2nd Grade</div>
+<div>3rd Grade</div>
+<div>4th Grade</div>
+<div>5th Grade</div>
+<div>6th Grade</div>
+<div>7th Grade</div>
+<div>8th Grade</div>
+<div>9th Grade</div>
+<div>10th Grade</div>
+<div>11th Grade</div>
+<div>12th Grade</div>
+</div>
+</div>
+</div>
+<div>
+<label for="subjects" class="form-label">Subjects Needing Help <span class="text-red-500">*</span></label>
+<input type="text" id="subjects" class="form-input" placeholder="e.g., Mathematics, Science, English" required>
+</div>
+<div>
+<label for="schedule" class="form-label">Preferred Schedule</label>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="custom-checkbox">
+<input type="checkbox" name="schedule" value="weekday_morning">
+<span class="checkmark"></span>
+<span>Weekday Mornings</span>
+</label>
+</div>
+<div>
+<label class="custom-checkbox">
+<input type="checkbox" name="schedule" value="weekday_afternoon">
+<span class="checkmark"></span>
+<span>Weekday Afternoons</span>
+</label>
+</div>
+<div>
+<label class="custom-checkbox">
+<input type="checkbox" name="schedule" value="weekday_evening">
+<span class="checkmark"></span>
+<span>Weekday Evenings</span>
+</label>
+</div>
+<div>
+<label class="custom-checkbox">
+<input type="checkbox" name="schedule" value="weekend">
+<span class="checkmark"></span>
+<span>Weekends</span>
+</label>
+</div>
+</div>
+</div>
+<div>
+<label for="additionalInfo" class="form-label">Additional Information</label>
+<textarea id="additionalInfo" class="form-input" rows="4" placeholder="Please share any specific learning needs, goals, or concerns"></textarea>
+</div>
+</div>
+</div>
+<!-- Optional Documents Section -->
+<div>
+<h2 class="text-xl font-semibold text-gray-800 mb-4">Documents</h2>
+<div class="space-y-6">
+<div>
+<label class="form-label">Student's Recent Report Card</label>
+<label class="form-label">Any Learning Assessment Reports</label>
+<label class="block text-sm font-medium text-gray-700 mb-1">Please send Documents to;</label>
+<a href="https://wa.me/233550892590?text=Hello%2C%20please%20these%20are%20documents%20for%20my%20learner" target="_blank" class="text-blue-600 underline">
+  Koa tutors
+</a>
+
+</div>
+</div>
+</div>
+<!-- Terms and Conditions Section -->
+<div>
+<div class="toggle-terms" id="toggleTerms">
+<h2 class="text-xl font-semibold text-gray-800">Terms & Conditions</h2>
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-down-s-line ri-lg"></i>
+</div>
+</div>
+<div class="terms-container hidden" id="termsContent">
+<h3 class="font-semibold mb-2">Parent Agreement</h3>
+<p class="mb-3">By registering as a parent, you agree to the following terms and conditions:</p>
+<p class="mb-2"><strong>1. Student Information:</strong> All information provided about the student must be accurate and current. Any changes should be promptly communicated to the platform.</p>
+<p class="mb-2"><strong>2. Session Commitment:</strong> Parents agree to ensure student attendance and punctuality for scheduled tutoring sessions.</p>
+<p class="mb-2"><strong>3. Cancellation Policy:</strong> A minimum of 24-hour notice is required for session cancellations to avoid charges.</p>
+<p class="mb-2"><strong>4. Payment Terms:</strong> Tutoring services must be paid for in advance. Refunds are subject to our cancellation policy.</p>
+<p class="mb-2"><strong>5. Communication:</strong> All communication with tutors must be conducted through our platform for safety and record-keeping purposes.</p>
+<p class="mb-2"><strong>6. Student Safety:</strong> Parents are responsible for providing a safe and appropriate learning environment for online sessions.</p>
+<p class="mb-2"><strong>7. Progress Monitoring:</strong> Parents agree to participate in regular progress reviews and provide feedback on tutoring services.</p>
+<p class="mb-2"><strong>8. Platform Usage:</strong> The platform's resources and materials are for personal use only and may not be shared or distributed.</p>
+<p class="mb-2"><strong>9. Code of Conduct:</strong> Parents and students must maintain respectful behavior towards tutors and adhere to platform guidelines.</p>
+<p class="mb-2"><strong>10. Privacy:</strong> We protect your personal information according to our privacy policy while providing necessary details to assigned tutors.</p>
+<p class="mt-4">For the complete terms and conditions, please refer to our <a href="#" class="text-primary hover:underline">full agreement document</a>.</p>
+</div>
+<div class="mt-4">
+<label class="custom-checkbox">
+<input type="checkbox" required>
+<span class="checkmark"></span>
+<span>I agree to the Terms and Conditions <span class="text-red-500">*</span></span>
+</label>
+</div>
+</div>
+<!-- Submit Section -->
+<div class="pt-4">
+<div class="flex flex-col sm:flex-row gap-4">
+<button type="submit" class="bg-primary text-white py-3 px-6 rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap flex-grow">Book Now</button>
+<button type="reset" class="bg-gray-200 text-gray-700 py-3 px-6 rounded-button font-medium hover:bg-gray-300 transition-colors whitespace-nowrap">Clear Form</button>
+</div>
+<div id="formStatus" class="mt-4 text-center hidden">
+<div class="p-4 bg-green-100 text-green-700 rounded-lg">
+Your application has been submitted successfully! We'll review your details and contact you soon.
+</div>
+<label class="block text-sm font-medium text-gray-700 mb-1"></label>
+<a href="Parent_Dashboard.html#profileModal" class="text-blue-600 underline">
+  Go Back
+</a>
+</div>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+<!-- Firebase SDKs for v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+<script>
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBovkGC2GNAIBcChSQdaGkLjc9icDCANb8",
+    authDomain: "koa-tutors-2751e.firebaseapp.com",
+    projectId: "koa-tutors-2751e",
+    storageBucket: "koa-tutors-2751e.firebasestorage.app",
+    messagingSenderId: "426422439529",
+    appId: "1:426422439529:web:3d7178311535d087bd5cf8"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      const userId = user.uid;
+
+      document.getElementById('tutorForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+          parentName: document.getElementById('fullName').value,
+          email: document.getElementById('email').value,
+          phoneNumber: document.getElementById('phone').value,
+          studentName: document.getElementById('studentName').value,
+          studentGrade: document.getElementById('studentGrade').value,
+          studentAge: document.getElementById('studentAge').value,
+          subject: document.getElementById('subjects').value,
+          additionalNotes: document.getElementById('additionalInfo').value,
+          submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        // Save using the user ID as the document ID
+        db.collection('tutor_bookings').doc(userId).set(formData)
+          .then(() => {
+            document.getElementById('tutorForm').reset();
+            // Optionally show a custom message on your page instead of alert
+            // Example: document.getElementById('statusMessage').textContent = "Booking submitted successfully!"
+          })
+          .catch((error) => {
+            console.error("Error submitting booking:", error);
+            // Optionally log the error message somewhere visible
+          });
+      });
+    } else {
+      // Optional: redirect to login page if no user is logged in
+    }
+  });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Custom Select Dropdown
+const customSelects = document.querySelectorAll('.custom-select');
+customSelects.forEach(select => {
+const selectSelected = select.querySelector('.select-selected');
+const selectItems = select.querySelector('.select-items');
+selectSelected.addEventListener('click', function(e) {
+e.stopPropagation();
+selectItems.style.display = selectItems.style.display === 'block' ? 'none' : 'block';
+this.classList.toggle('select-arrow-active');
+});
+const selectOptions = selectItems.querySelectorAll('div');
+selectOptions.forEach(option => {
+option.addEventListener('click', function(e) {
+e.stopPropagation();
+selectSelected.textContent = this.textContent;
+selectItems.style.display = 'none';
+selectSelected.classList.remove('select-arrow-active');
+});
+});
+document.addEventListener('click', function(e) {
+if (!e.target.closest('.custom-select')) {
+selectItems.style.display = 'none';
+selectSelected.classList.remove('select-arrow-active');
+}
+});
+});
+// Toggle Terms and Conditions
+const toggleTerms = document.getElementById('toggleTerms');
+const termsContent = document.getElementById('termsContent');
+toggleTerms.addEventListener('click', function() {
+termsContent.classList.toggle('hidden');
+const icon = this.querySelector('i');
+if (termsContent.classList.contains('hidden')) {
+icon.classList.remove('ri-arrow-up-s-line');
+icon.classList.add('ri-arrow-down-s-line');
+} else {
+icon.classList.remove('ri-arrow-down-s-line');
+icon.classList.add('ri-arrow-up-s-line');
+}
+});
+// Form Submission
+const tutorForm = document.getElementById('tutorForm');
+const formStatus = document.getElementById('formStatus');
+tutorForm.addEventListener('submit', function(e) {
+e.preventDefault();
+// Show loading state
+const submitBtn = tutorForm.querySelector('button[type="submit"]');
+const originalText = submitBtn.textContent;
+submitBtn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Processing...</span>';
+submitBtn.disabled = true;
+// Simulate form submission
+setTimeout(() => {
+formStatus.classList.remove('hidden');
+submitBtn.textContent = originalText;
+submitBtn.disabled = false;
+// Scroll to the status message
+formStatus.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}, 1500);
+});
+// File Upload Preview
+const fileUploads = document.querySelectorAll('.file-upload input[type="file"]');
+fileUploads.forEach(upload => {
+upload.addEventListener('change', function() {
+const fileUploadDiv = this.parentElement;
+const fileNameDisplay = document.createElement('p');
+fileNameDisplay.classList.add('text-primary', 'mt-3', 'text-sm', 'font-medium');
+if (this.files.length > 0) {
+if (this.files.length === 1) {
+fileNameDisplay.textContent = this.files[0].name;
+} else {
+fileNameDisplay.textContent = `${this.files.length} files selected`;
+}
+// Remove any existing file name display
+const existingDisplay = fileUploadDiv.querySelector('.text-primary');
+if (existingDisplay) {
+existingDisplay.remove();
+}
+fileUploadDiv.appendChild(fileNameDisplay);
+}
+});
+});
+});
+</script>
+</body>
+</html>
