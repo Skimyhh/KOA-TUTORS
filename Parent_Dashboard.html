@@ -579,10 +579,32 @@ closeProfileModal();
 
 // Logout
 logoutBtn.addEventListener('click', () => {
-if (confirm('Are you sure you want to logout?')) {
-localStorage.removeItem('profileCompleted');
-window.location.href = 'index.html'; // Replace with your login page URL
-}
+// Elements
+const logoutBtn = document.getElementById('logoutBtn');
+const dialog    = document.getElementById('logoutConfirmDialog');
+const cancelBtn = document.getElementById('cancelLogoutBtn');
+
+// 1. Open the dialog when logout is clicked
+logoutBtn.addEventListener('click', () => {
+  if (typeof dialog.showModal === 'function') {
+    dialog.showModal();                   // modal + backdrop :contentReference[oaicite:5]{index=5}
+  } else {
+    dialog.setAttribute('open', '');
+  }
+});
+
+// 2. Close without action on “Cancel”
+cancelBtn.addEventListener('click', () => dialog.close());
+
+// 3. Handle the dialog’s close event
+dialog.addEventListener('close', () => {
+  // Only proceed if the “Yes, Logout” button (value="yes") was used
+  if (dialog.returnValue === 'yes') {    // returnValue set by form submit :contentReference[oaicite:6]{index=6}
+    localStorage.removeItem('profileCompleted');
+    window.location.href = 'index.html';
+  }
+});
+
 });
 });
 </script>
@@ -716,6 +738,51 @@ window.location.href = 'index.html'; // Replace with your login page URL
     }
   });
 </script>
-
+  <!-- Logout Confirmation Dialog -->
+  <dialog id="logoutConfirmDialog"
+  role="dialog"
+  aria-labelledby="logoutConfirmTitle"
+  aria-describedby="logoutConfirmDesc"
+  class="rounded-lg shadow-lg z-50 relative">
+  <form method="dialog"
+  class="p-6 bg-white rounded-lg flex flex-col items-center space-y-4 relative">
+  <!-- Exclamation Icon (optional) -->
+  <svg xmlns="http://www.w3.org/2000/svg"
+   class="h-8 w-8 text-yellow-500"
+   fill="none"
+   stroke="currentColor"
+   viewBox="0 0 24 24"
+   aria-hidden="true">
+  <path stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 8v4m0 4h.01M21 12a9 9 0
+         11-18 0 9 9 0 0118 0z"/>
+  </svg>
+  <h2 id="logoutConfirmTitle"
+  class="text-xl font-semibold text-center">
+  Confirm Logout
+  </h2>
+  <p id="logoutConfirmDesc"
+  class="text-gray-700 text-center">
+  Are you sure you want to logout?
+  </p>
+  <div class="flex space-x-3">
+  <!-- Yes, Logout -->
+  <button id="confirmLogoutBtn"
+        value="yes"
+        type="submit"
+        class="px-4 py-2 bg-red-600 text-black rounded hover:bg-red-700 focus:outline-none">
+  Yes, Logout
+  </button>
+  <!-- Cancel -->
+  <button id="cancelLogoutBtn"
+        type="button"
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 focus:outline-none">
+  Cancel
+  </button>
+  </div>
+  </form>
+  </dialog>
 </body>
 </html>
