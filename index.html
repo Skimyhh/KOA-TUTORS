@@ -68,6 +68,16 @@ border: solid white;
 border-width: 0 2px 2px 0;
 transform: rotate(45deg);
 }
+/* Style the semi-transparent backdrop */
+#loginErrorDialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Ensure the dialog floats above all other content */
+#loginErrorDialog {
+  position: fixed;
+  inset: 0; /* covers entire viewport for backdrop */
+}
 </style>
 </head>
 <body class="bg-white">
@@ -730,8 +740,23 @@ if (tutorForm) {
           alert("User profile not found.");
         }
       } catch (error) {
-        alert("Login failed: " + error.message);
-      }
+        const dialog    = document.getElementById('loginErrorDialog');
+  const closeBtn  = document.getElementById('loginErrorClose');
+
+  // Always use generic messaging
+  document.getElementById('loginErrorMessage').textContent =
+    'Check credentials and try again ';
+
+  // Open the modal dialog
+  if (typeof dialog.showModal === 'function') {
+    dialog.showModal();  // modal + backdrop :contentReference[oaicite:7]{index=7}
+  } else {
+    dialog.setAttribute('open', '');
+  }
+
+  // Wire up the Close button
+  closeBtn.onclick = () => dialog.close();
+}
     });
 
   }function showSuccessDialog(name, role) {
@@ -763,5 +788,57 @@ if (tutorForm) {
   </div>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init();</script>
+
+<!-- Login Error Dialog -->
+<dialog id="loginErrorDialog"
+        role="dialog"
+        aria-labelledby="loginErrorTitle"
+        class="rounded-lg shadow-lg z-50 relative">
+  <form method="dialog"
+        class="p-6 bg-white rounded-lg flex flex-col items-center space-y-4">
+    <!-- Close button in top-right -->
+    <button id="loginErrorClose"
+            type="button"
+            aria-label="Close dialog"
+            class="absolute top-0 right-0 m-4 p-2 hover:bg-gray-200 rounded focus:outline-none">
+      <!-- Heroicons X Mark inline SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg"
+           class="h-6 w-6 text-gray-700"
+           fill="currentColor"
+           viewBox="0 0 24 24"
+           aria-hidden="true"
+           focusable="false">
+        <path fill-rule="evenodd"
+              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75
+                 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0
+                 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75
+                 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75
+                 0 010-1.06Z"
+              clip-rule="evenodd"/>
+      </svg>
+    </button>
+<!-- Error Icon -->
+<svg xmlns="http://www.w3.org/2000/svg"
+     class="h-6 w-6 text-red-600 mb-2"
+     viewBox="0 0 20 20"
+     fill="currentColor"
+     aria-hidden="true">
+  <path fill-rule="evenodd"
+        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+        clip-rule="evenodd"/>
+</svg>
+
+    <h2 id="loginErrorTitle"
+        class="text-xl font-semibold">
+      Login Failed
+    </h2>
+    <p id="loginErrorMessage"
+       class="text-gray-700 text-center">
+    </p>
+  </form>
+</dialog>
+
+
+
 </body>
 </html>
